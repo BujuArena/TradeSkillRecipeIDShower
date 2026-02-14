@@ -1,9 +1,11 @@
-## Interface: 80000
+## Interface: 11507, 11508, 20404, 20505, 30404, 30405, 38000, 40402, 50500, 50501, 50502, 50503, 110107, 110200, 110205, 110207, 120000, 120001
 ## Title: TradeSkillRecipeIDShower
-## Notes: Adds recipe ID to the bottom of the trade skill recipe details
-## Author: Alex Folland
+## Notes: Adds recipe ID to the trade skill recipe details menu
+## Author: BujuArena
 ## LoadOnDemand: 1
-## LoadWith: Blizzard_TradeSkillUI
-## Dependencies: Blizzard_TradeSkillUI
+## OptionalDeps: Blizzard_TradeSkillUI, Blizzard_TrainerUI, Blizzard_Professions
+## LoadWith: Blizzard_TradeSkillUI, Blizzard_TrainerUI, Blizzard_Professions
 
 TradeSkillRecipeIDShower.lua
+
+## X-Curse-Project-ID: 276986
