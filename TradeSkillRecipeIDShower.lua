@@ -1,36 +1,35 @@
 -- mainline WoW
 if ProfessionsFrame and ProfessionsFrame.CraftingPage and ProfessionsFrame.CraftingPage.SchematicForm then
 	local recipeID
+	local recipeIDFontString = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("TradeSkillRecipeIDShowerRecipeIDFontString", "BACKGROUND", "GameFontNormalSmall2")
 	hooksecurefunc(ProfessionsFrame.CraftingPage.SchematicForm, "Init", function(self, recipeInfo, ...)
 		if recipeInfo and recipeInfo.recipeID then
 			recipeID = tostring(recipeInfo.recipeID)
-			self.OutputSubText:SetFontObject("GameFontNormalSmall2")
-			if self.RequiredTools:IsShown() then
-				self.OutputSubText:SetPoint("TOPLEFT", self.RequiredTools, "BOTTOMLEFT", 0, -3)
-			elseif self.RecraftingRequiredTools:IsShown() then
-				self.OutputSubText:SetPoint("TOPLEFT", self.RecraftingRequiredTools, "BOTTOMLEFT", 0, -3)
-			else 
-				self.OutputSubText:SetPoint("TOPLEFT", self.OutputText, "BOTTOMLEFT", 0, -3)
+			local spacing = -3
+			if self.OutputSubText:IsShown() then
+				recipeIDFontString:SetPoint("TOPLEFT", self.OutputSubText, "BOTTOMLEFT", 0, spacing)
+			elseif self.RecraftingOutputText:IsShown() then
+				recipeIDFontString:SetPoint("TOPLEFT", self.RecraftingOutputText, "BOTTOMLEFT", 0, spacing)
+			else
+				recipeIDFontString:SetPoint("TOPLEFT", self.OutputText, "BOTTOMLEFT", 0, spacing)
 			end
-			self.OutputSubText:SetText("Recipe ID: "..HIGHLIGHT_FONT_COLOR_CODE..recipeID..FONT_COLOR_CODE_CLOSE)
-			self.OutputSubText:Show()
+
+			if self.RequiredTools:IsShown() then
+				self.RequiredTools:SetPoint("TOPLEFT", recipeIDFontString, "BOTTOMLEFT", 0, 0)
+			elseif self.RecraftingRequiredTools:IsShown() then
+				self.RecraftingRequiredTools:SetPoint("TOPLEFT", recipeIDFontString, "BOTTOMLEFT", 0, 0)
+			end
+			recipeIDFontString:SetText("Recipe ID: "..HIGHLIGHT_FONT_COLOR_CODE..recipeID..FONT_COLOR_CODE_CLOSE)
+			recipeIDFontString:Show()
 		else
 			recipeID = nil
-			if self.OutputSubText then
-				self.OutputSubText:SetPoint("TOPLEFT", self.OutputText, "BOTTOMLEFT", 0, -5)
-				self.OutputSubText:SetFontObject("GameFontNormal")
-			end
-		end
-	end)
-	hooksecurefunc(ProfessionsFrame.CraftingPage.SchematicForm, "SetOutputSubText", function(self, text, ...)
-		if recipeID then
-			self.OutputSubText:SetText(((text and (text ~= "")) and text.."; " or "").."Recipe ID: "..HIGHLIGHT_FONT_COLOR_CODE..recipeID..FONT_COLOR_CODE_CLOSE)
+			recipeIDFontString:Hide()
 		end
 	end)
 end
 
 -- classic WoW
-if TradeSkillFrame_SetSelection then
+if TradeSkillFrame_SetSelection and TradeSkillDetailScrollChildFrame then
 	local function extractRecipeIDFromTradeSkillRecipeLink(linkString)
 		return linkString:match("enchant:(%d+)|")
 	end
@@ -66,7 +65,7 @@ if TradeSkillFrame_SetSelection then
 end
 
 -- classic WoW trainer, but couldn't get the recipe ID, so decided to show the item ID if possible at least
-if ClassTrainer_SetSelection then
+if ClassTrainer_SetSelection and ClassTrainerDetailScrollChildFrame then
 	local itemLink
 	local itemID
 	local classTrainerItemIDFontString = ClassTrainerDetailScrollChildFrame:CreateFontString("TradeSkillRecipeIDShowerClassTrainerItemIDFontString", "BACKGROUND", "GameFontHighlightSmall")
